@@ -3,9 +3,9 @@ import {onError} from "@apollo/client/link/error"
 
 
 const httpLink = new HttpLink({uri: "https://graphql.anilist.co"})
-const errorLink = onError(({graphQlErrors, networkError})=>{
-    if (graphQlErrors){
-        graphQlErrors.forEach(({message, locations, path})=>{
+const errorLink = onError(({graphQLErrors, networkError})=>{
+    if (graphQLErrors){
+        graphQLErrors.forEach(({message, locations, path})=>{
             console.log(
                 `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
               )
