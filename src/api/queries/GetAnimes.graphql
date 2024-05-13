@@ -1,0 +1,20 @@
+query GetAnimes($date: FuzzyDateInt){
+  Page(page:1, perPage:20){
+  	media(startDate:$date){
+      id,
+      startDate{
+      year,
+    month,
+    day
+      },
+      title{
+        userPreferred
+      },
+			genres,
+      averageScore,
+      coverImage{
+        medium
+      }
+    }
+  }
+}

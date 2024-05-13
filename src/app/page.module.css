@@ -203,12 +203,85 @@
   }
 }
 
+.DateWrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin: 24px;
+}
+
+.DatePicker{
+  margin: 16px 0px;
+}
+
+.Table{
+  border-spacing: 0;
+  border-collapse: separate ;
+
+  /* display: none; */
+  
+  width: 100%;
+ 
+  
+  /* overflow: scroll; */
+  text-align: left;
+  /* overflow: scroll; */
+  /* width: 100%; */
+  /* border-style: dashed; */
+  /* border-radius: 100px !important; */
+  /* border-top: 1px solid #e2e2e2; */
+}
+.Wrapper{
+  overflow: scroll;
+  border-radius: 20px;
+  border: 2px solid rgb(162, 162, 162);
+  width: 100%;
+}
+
+
+
+.Table__Header {
+  text-transform: capitalize;
+  /* display: none; */
+}
+
+
+
+
+
+
+.Table td, .Table th{
+
+  padding: 16px ;
+  background-color: white;
+  color: black;
+  border: 1px solid #ddd;
+  
+  /* padding-inline: 16px; */
+}
+
+.Table__Data__Row:nth-child(2n) td{
+
+  background-color: #f0f0f0 !important;
+  
+
+}
+
+
+
+
 /* Tablet and Smaller Desktop */
 @media (min-width: 701px) and (max-width: 1120px) {
   .grid {
     grid-template-columns: repeat(2, 50%);
   }
-}
+
+  .Table th:nth-child(1), .Table td:nth-child(1){
+    position: sticky;
+    left: 0; 
+  }
+
 
 @media (prefers-color-scheme: dark) {
   .vercelLogo {
@@ -227,4 +300,13 @@
   to {
     transform: rotate(0deg);
   }
+}
+}
+
+@media (max-width: 701px){
+  .Table th:nth-child(1), .Table td:nth-child(1){
+    position: sticky;
+    left: 0; 
+  }
+  
 }

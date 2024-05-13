@@ -1,95 +1,87 @@
+"use client"
+// @ts-ignore: Object is possibly 'null'.
 import Image from "next/image";
 import styles from "./page.module.css";
+import {  GetAnimesQuery, Media, useGetAnimesQuery } from "@/api/__generated__/graphql";
+import { useEffect, useState } from "react";
+import specialStyles from "./special.module.css"
 
 export default function Home() {
+  const [Data, setData] = useState<GetAnimesQuery | undefined | null>(undefined)
+  const [Date, setDate] = useState<string>("")
+  
+  
+
+  const {loading, error, data, refetch} =  useGetAnimesQuery({onCompleted:(data)=>{console.log(data?.Page?.media[0]?.startDate); setDate("2020-05-01")}, variables:{date:20200501}})
+
+
+  const handleDateChange = (e:React.ChangeEvent<HTMLInputElement>) =>{
+    // console.log("The Date", e.target.value )
+    //format date
+    const formatted = e.target.value.split("-").join("")
+    // console.log("The Formatted Date",+formatted )
+    refetch({date:formatted})
+    
+
+  }
+
+  const headerKeys = ["id", "title", "genres", "average score", "Date Released" ]
+
+
   return (
     <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
+      <h1>List of Animes</h1>
+
+      <div className={styles.DateWrapper}>
+      <p>Pick a release date</p>
+      <input className={styles.DatePicker} aria-label="Date" type="date" value={Date} onChange={(e)=>handleDateChange(e)}  />
       </div>
+{ loading? <p>Loading...</p> : 
+<div className={styles.Wrapper}>
+<table className={styles.Table}>
+  {/* <caption>The Great Anime Table</caption> */}
+  <thead>
+    <tr className={styles.Table__Header__Row}>
+    {headerKeys.map((header, idx)=>{
+        return(
+         
+      <th key={idx} className={styles.Table__Header}>
+        {header}
+        </th>
+        )
+      })}
+      
+    
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+    </tr>
+  </thead>
+  <tbody>
+    { data?.Page?.media.map((entry, index)=>{
+      return(
+        <tr key={index} className={styles.Table__Data__Row}>
+        {<>
+          <td>{entry?.id}</td>
+          <td>{entry?.title?.userPreferred}</td>
+          <td>{entry?.genres?.join(", ")}.</td>
+          <td>{entry?.averageScore}</td>
+          <td>{entry?.startDate?.year},{entry?.startDate?.month}</td>
+          </>
+        }
+      </tr>
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
+      )
+    })
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
+   
+}
+  </tbody>
+</table>
+</div>
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
+}
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+
+      {/* {loading? <p>Loading...</p> : } */}
     </main>
   );
 }

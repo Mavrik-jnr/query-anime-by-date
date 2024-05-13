@@ -1,0 +1,27 @@
+.Table{
+    border-collapse: collapse;
+    /* background-color: aqua; */
+    min-width: 900px;
+    text-align: left;
+    width: 80%;
+}
+
+.Table__Header{
+    text-transform: capitalize;
+    /* display: none; */
+}
+
+.Table td, .Table th{
+    padding: 16px ;
+    /* padding-inline: 16px; */
+}
+
+@media (max-width: 1200) {
+
+    .Table{
+        display: none;
+        position:fixed;
+        top:0;
+    }
+    
+}
